@@ -1,6 +1,16 @@
+/* Der Aufruf des RFID-Chips wird mit Code aus den Beispielprojekten der RFID-Bibliothek realisiert
+   Da der Code nicht mehr zusammenhängend ist, ist die Quelle hiermit am Anfang aufgeführt.
+   Erkennbar sind die Teile noch durch die Englischen Code-Kommentare. 
+   Zum Debuggen, da hier häufiger Fehler aufgetreten sind, wurden die Ausgaben über den Seriellen Monitor nicht entfernt.
+   https://github.com/miguelbalboa/rfid/blob/master/examples/ReadAndWrite/ReadAndWrite.ino
+
+   Code zuer Ansteuerung des INterface des LCD-Display aus dem Beispielcode von Funduino
+   https://funduino.de/nr-19-i%C2%B2c-display
+*/
+
+
 #include <SPI.h>
 #include <MFRC522.h>
-#include <Servo.h>
 #include <Wire.h> // Wire Bibliothek einbinden
 #include <LiquidCrystal_I2C.h> // Vorher hinzugefügte LiquidCrystal_I2C Bibliothek einbinden
 LiquidCrystal_I2C lcd(0x27, 16, 2); //Hier wird festgelegt um was für einen Display es sich handelt. In diesem Fall eines mit 16 Zeichen in 2 Zeilen und der HEX-Adresse 0x27. Für ein vierzeiliges I2C-LCD verwendet man den Code "LiquidCrystal_I2C lcd(0x27, 20, 4)" 
@@ -9,10 +19,8 @@ Servo servo;
 
 int taster1 = 7;
 int taster2 = 8;
-int sensor1 = A0;
-int sensor2 = A1;
-int schacht1 = 1; // 1 heißt befüllt; 0 heißt leer
-int schacht2 = 1;
+
+
 
 #define RST_PIN         9           // Configurable, see typical pin layout above
 #define SS_PIN          10          // Configurable, see typical pin layout above
@@ -21,6 +29,10 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
 MFRC522::MIFARE_Key key;
 
+
+/*
+ * Hier Einstellen wie viel Guthaben auf die Karte geladen werden soll:
+ */
 int GuthabenAufladen = 20;
 
 /**

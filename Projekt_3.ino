@@ -1,7 +1,11 @@
 /* Der Aufruf des RFID-Chips wird mit Code aus den Beispielprojekten der RFID-Bibliothek realisiert
    Da der Code nicht mehr zusammenhängend ist, ist die Quelle hiermit am Anfang aufgeführt.
    Erkennbar sind die Teile noch durch die Englischen Code-Kommentare.
+   Zum Debuggen, da hier häufiger Fehler aufgetreten sind, wurden die Ausgaben über den Seriellen Monitor nicht entfernt.
    https://github.com/miguelbalboa/rfid/blob/master/examples/ReadAndWrite/ReadAndWrite.ino
+
+   Code zuer Ansteuerung des INterface des LCD-Display aus dem Beispielcode von Funduino
+   https://funduino.de/nr-19-i%C2%B2c-display
 */
 
 #include <SPI.h>  //Serial Peripheral Interface (SPI) Bibiothek
@@ -9,6 +13,7 @@
 #include <Servo.h> 
 #include <Wire.h> // Wire Bibliothek einbinden
 #include <LiquidCrystal_I2C.h> // Vorher hinzugefügte LiquidCrystal_I2C Bibliothek einbinden
+
 LiquidCrystal_I2C lcd(0x27, 16, 2); //Hier wird festgelegt um was für einen Display es sich handelt. In diesem Fall eines mit 16 Zeichen in 2 Zeilen und der HEX-Adresse 0x27. Für ein vierzeiliges I2C-LCD verwendet man den Code "LiquidCrystal_I2C lcd(0x27, 20, 4)"
 
 Servo servo;
@@ -50,6 +55,7 @@ void setup() {
   delay(1000);
 
   Serial.begin(9600); // Initialize serial communications with the PC
+  
   SPI.begin();        // Init SPI bus
   mfrc522.PCD_Init(); // Init MFRC522 card
 
@@ -180,7 +186,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
     lcd.print("Sie koennen");
-    lcd.setCursor(0, 1);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
+    lcd.setCursor(0, 1);// In diesem Fall bedeutet (0,1) das erste Zeichen in der zweiten Zeile.
     lcd.print("Karte entfernen");
     delay(3000);
     lcd.clear();
@@ -193,7 +199,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
     lcd.print("Keine");
-    lcd.setCursor(0, 1);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
+    lcd.setCursor(0, 1);// In diesem Fall bedeutet (0,1) das erste Zeichen in der zweiten Zeile.
     lcd.print("Berechtigung");
     Serial.println(" Keine Berechtigung");
     digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
@@ -346,7 +352,7 @@ bool rfidBezahlen(int zahlBetrag) {
   lcd.setCursor(0, 0);
   lcd.print("Zahlungsmittel");
   lcd.setCursor(0, 1);
-  lcd.print("davor halten");
+  lcd.print("davorhalten");
   delay(1000);
 
   int warten = 1;
@@ -547,7 +553,7 @@ bool rfidBezahlen(int zahlBetrag) {
       lcd.clear();
       lcd.setCursor(0, 0);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
       lcd.print("Ihr Guhaben:");
-      lcd.setCursor(0, 1);//Hier wird die Position des ersten Zeichens festgelegt. In diesem Fall bedeutet (0,0) das erste Zeichen in der ersten Zeile.
+      lcd.setCursor(0, 1);// In diesem Fall bedeutet (0,1) das erste Zeichen in der zweiten Zeile.
       lcd.print(guthaben);
       delay(2000);
 
